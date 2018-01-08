@@ -23,7 +23,7 @@ export function handleRequest(request, target) {
     throw createError(-32601);
   }
 
-  return method.apply(undefined, request.params);
+  return method.apply(target, request.params);
 }
 
 export function buildResponse(fn, id = null) {

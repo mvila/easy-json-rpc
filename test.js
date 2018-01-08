@@ -44,6 +44,19 @@ test('handleRequest()', t => {
   result = handleRequest(request, { subtract: (a, b) => a - b });
   t.is(result, 2);
 
+  request = {
+    jsonrpc: '2.0', method: 'callAnotherMethod', id: 'xyz'
+  };
+  result = handleRequest(request, {
+    callAnotherMethod() {
+      return this.anotherMethod();
+    },
+    anotherMethod() {
+      return 'hello';
+    }
+  });
+  t.is(result, 'hello');
+
   t.throws(
     () => handleRequest({ jsonrpc: '1.0' }, {}),
     err => err.code === -32600
